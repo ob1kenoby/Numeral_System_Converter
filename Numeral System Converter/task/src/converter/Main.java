@@ -49,10 +49,11 @@ public class Main {
     private static String convertFractionalPart(byte radix, String fractional, byte newRadix) {
         double decimalValue = 0;
         if (radix == 10) {
-            decimalValue = Integer.parseInt("0." + fractional);
+            decimalValue = Double.parseDouble("0." + fractional);
         } else {
-            for (String symbol : fractional.split("")) {
-                decimalValue += getIntFromSymbol(symbol) / (radix * 1.0);
+            String[] letters = fractional.split("");
+            for (int i = 0; i < letters.length; i ++) {
+                decimalValue += getIntFromSymbol(letters[i]) / Math.pow((radix), i + 1);
             }
         }
 
@@ -89,7 +90,6 @@ public class Main {
 
     private static int getIntFromSymbol(String symbol) {
         char l = symbol.charAt(0);
-        System.out.println((int) l);
         if ((int) l >= 48 && (int) l <= 57) { // '0' == 48, '9' == 57
             return (int) l - 48;
         } else if ((int) l >= 97 && (int) l <= 122) { // 'a' == 97, 'z' == 122
