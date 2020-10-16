@@ -74,6 +74,14 @@ public class Main {
         }
     }
 
+    private static char getSymbolFromInt(int integerPart) {
+        if (integerPart >= 0 && integerPart <= 9) {
+            return (char) (integerPart + 48);
+        } else {
+            return (char) (integerPart + 87);
+        }
+    }
+
     private static String convertToStringWithoutDot(double decimalValue) {
         String output = Double.toString(decimalValue);
         return output.split("\\.")[1];
