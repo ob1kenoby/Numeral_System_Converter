@@ -48,9 +48,14 @@ public class Main {
 
     private static String convertFractionalPart(byte radix, String fractional, byte new_radix) {
         int decimalValue;
-        for (String symbol : fractional.split("")) {
-            decimalValue = getIntFromSymbol(symbol) / radix;
+        if (radix == 10) {
+            decimalValue = Integer.valueOf(fractional);
+        } else {
+            for (String symbol : fractional.split("")) {
+                decimalValue = getIntFromSymbol(symbol) / radix;
+            }
         }
+
         return "";
     }
 
