@@ -1,30 +1,55 @@
 package converter;
 
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        byte radix = scanner.nextByte();
-        scanner.nextLine();
-        String[] input = scanner.nextLine().split("\\.");
-        byte newRadix = scanner.nextByte();
-
-        boolean isFractional = input.length == 2;
-        String integer = input[0];
-
-        String fractionalNewRadix = "";
-        if (isFractional) {
-            String fractional = input[1];
-            fractionalNewRadix = convertFractionalPart(radix, fractional, newRadix);
+        byte radix = 0;
+        String[] input = new String[2];
+        byte newRadix = 0;
+        boolean correctInput = true;
+        try (Scanner scanner = new Scanner(System.in)) {
+            radix = scanner.nextByte();
+            scanner.nextLine();
+            input = scanner.nextLine().split("\\.");
+            newRadix = scanner.nextByte();
+        } catch (NoSuchElementException e) {
+            System.out.println("Error: wrong input");
+            correctInput = false;
         }
 
-        String integerNewRadix = convertIntegerPart(radix, integer, newRadix);
+        if (radix <= 0 || newRadix <= 0 || radix > 36 || newRadix > 36) {
+            System.out.println("Error: base should be between 1 and 36");
+            correctInput = false;
+        }
 
-        if (isFractional) {
-            System.out.println(integerNewRadix + "." + fractionalNewRadix);
-        } else {
-            System.out.println(integerNewRadix);
+        if (correctInput) {
+            boolean isFractional = false;
+            try {
+                isFractional = input[1].length() > 0;
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("Error: the input is not fractional number");
+
+            }
+            String integer = input[0];
+
+            String fractionalNewRadix = "";
+            if (isFractional) {
+                String fractional = input[1];
+                fractionalNewRadix = convertFractionalPart(radix, fractional, newRadix);
+            } else {
+                System.out.println("Error: the input is not fractional");
+            }
+
+            String integerNewRadix = convertIntegerPart(radix, integer, newRadix);
+
+            if (isFractional) {
+                System.out.println(integerNewRadix + "." + fractionalNewRadix);
+            } else {
+                System.out.println(integerNewRadix);
+            }
         }
     }
 
