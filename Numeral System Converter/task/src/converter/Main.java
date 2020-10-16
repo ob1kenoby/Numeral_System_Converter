@@ -47,16 +47,25 @@ public class Main {
     }
 
     private static String convertFractionalPart(byte radix, String fractional, byte new_radix) {
-        int decimalValue;
+        int decimalValue = 0;
         if (radix == 10) {
-            decimalValue = Integer.valueOf(fractional);
+            decimalValue = Integer.valueOf("0." + fractional);
         } else {
             for (String symbol : fractional.split("")) {
-                decimalValue = getIntFromSymbol(symbol) / radix;
+                decimalValue += getIntFromSymbol(symbol) / radix;
             }
         }
 
+        if (new_radix == 10) {
+            return convertToStringWithoutDot(decimalValue);
+        }
+
         return "";
+    }
+
+    private static String convertToStringWithoutDot(int decimalValue) {
+        String output = Integer.toString(decimalValue);
+        return output.split("\\.")[1];
     }
 
     private static int getIntFromSymbol(String symbol) {
