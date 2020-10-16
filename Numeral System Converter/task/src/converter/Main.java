@@ -47,7 +47,7 @@ public class Main {
     }
 
     private static String convertFractionalPart(byte radix, String fractional, byte new_radix) {
-        int decimalValue = 0;
+        double decimalValue = 0;
         if (radix == 10) {
             decimalValue = Integer.valueOf("0." + fractional);
         } else {
@@ -63,8 +63,8 @@ public class Main {
         return "";
     }
 
-    private static String convertToStringWithoutDot(int decimalValue) {
-        String output = Integer.toString(decimalValue);
+    private static String convertToStringWithoutDot(double decimalValue) {
+        String output = Double.toString(decimalValue);
         return output.split("\\.")[1];
     }
 
