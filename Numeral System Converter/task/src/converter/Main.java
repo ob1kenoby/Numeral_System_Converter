@@ -8,7 +8,7 @@ public class Main {
         byte radix = scanner.nextByte();
         scanner.nextLine();
         String[] input = scanner.nextLine().split("\\.");
-        byte new_radix = scanner.nextByte();
+        byte newRadix = scanner.nextByte();
 
         boolean isFractional = input.length == 2;
         String integer = input[0];
@@ -16,10 +16,10 @@ public class Main {
         String fractionalNewRadix = "";
         if (isFractional) {
             String fractional = input[1];
-            fractionalNewRadix = convertFractionalPart(radix, fractional, new_radix);
+            fractionalNewRadix = convertFractionalPart(radix, fractional, newRadix);
         }
 
-        String integerNewRadix = convertIntegerPart(radix, integer, new_radix);
+        String integerNewRadix = convertIntegerPart(radix, integer, newRadix);
 
         if (isFractional) {
             System.out.println(integerNewRadix + "." + fractionalNewRadix);
@@ -28,7 +28,7 @@ public class Main {
         }
     }
 
-    private static String convertIntegerPart(byte radix, String integer, byte new_radix) {
+    private static String convertIntegerPart(byte radix, String integer, byte newRadix) {
         if ("0".equals(integer)) {
             return integer;
         }
@@ -38,15 +38,15 @@ public class Main {
         } else {
             number = Integer.parseInt(integer, radix);
         }
-        if (new_radix == 1) {
+        if (newRadix == 1) {
             number = convertToRadixOne(number);
             return Integer.toString(number);
         } else {
-            return Integer.toString(number, new_radix);
+            return Integer.toString(number, newRadix);
         }
     }
 
-    private static String convertFractionalPart(byte radix, String fractional, byte new_radix) {
+    private static String convertFractionalPart(byte radix, String fractional, byte newRadix) {
         double decimalValue = 0;
         if (radix == 10) {
             decimalValue = Integer.valueOf("0." + fractional);
@@ -56,11 +56,22 @@ public class Main {
             }
         }
 
-        if (new_radix == 10) {
+        if (newRadix == 10) {
             return convertToStringWithoutDot(decimalValue);
+        } else {
+            StringBuilder newBaseValue = new StringBuilder();
+            for (int i = 0; i < 5; i++) {
+                double result = decimalValue * newRadix;
+                int integerPart = (int) Math.floor(result);
+                double remainder = result - integerPart;
+                newBaseValue.append(getSymbolFromInt(integerPart));
+                if (remainder == 0.0) {
+                    break;
+                }
+                decimalValue = remainder;
+            }
+            return newBaseValue.toString();
         }
-
-        return "";
     }
 
     private static String convertToStringWithoutDot(double decimalValue) {
