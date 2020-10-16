@@ -32,7 +32,7 @@ public class Main {
         if ("0".equals(integer)) {
             return integer;
         }
-        int number = 0;
+        int number;
         if (radix == 1) {
             number = integer.length();
         } else {
@@ -49,10 +49,10 @@ public class Main {
     private static String convertFractionalPart(byte radix, String fractional, byte newRadix) {
         double decimalValue = 0;
         if (radix == 10) {
-            decimalValue = Integer.valueOf("0." + fractional);
+            decimalValue = Integer.parseInt("0." + fractional);
         } else {
             for (String symbol : fractional.split("")) {
-                decimalValue += getIntFromSymbol(symbol) / radix;
+                decimalValue += getIntFromSymbol(symbol) / (radix * 1.0);
             }
         }
 
@@ -89,14 +89,13 @@ public class Main {
 
     private static int getIntFromSymbol(String symbol) {
         char l = symbol.charAt(0);
-        int numberFromSymbol = (int) l;
-        System.out.println(numberFromSymbol);
-        if (numberFromSymbol >= 48 && numberFromSymbol <= 57) { // '0' == 48, '9' == 57
-            return numberFromSymbol - 48;
-        } else if (numberFromSymbol >= 97 && numberFromSymbol <= 122) { // 'a' == 97, 'z' == 122
-            return numberFromSymbol - 87;
-        } else if (numberFromSymbol >= 65 && numberFromSymbol <= 90) { // 'A' == 65, 'Z' == 90
-            return numberFromSymbol - 55;
+        System.out.println((int) l);
+        if ((int) l >= 48 && (int) l <= 57) { // '0' == 48, '9' == 57
+            return (int) l - 48;
+        } else if ((int) l >= 97 && (int) l <= 122) { // 'a' == 97, 'z' == 122
+            return (int) l - 87;
+        } else if ((int) l >= 65 && (int) l <= 90) { // 'A' == 65, 'Z' == 90
+            return (int) l - 55;
         }
         return -1;
     }
